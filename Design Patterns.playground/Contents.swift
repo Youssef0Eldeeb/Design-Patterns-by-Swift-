@@ -21,7 +21,6 @@ class Singleton {
 // MARK: - 2. Prototype
 
 //Implementation
-
 class MoonWorker {
 
     var name: String
@@ -35,7 +34,6 @@ class MoonWorker {
         return MoonWorker(name: name)
     }
 }
-
 //Using
 
 //let prototype = MoonWorker(name: "Sam Bell")
@@ -125,7 +123,6 @@ enum Country {
 
 enum CurrencyFactory {
     static func currency(for country: Country) -> CurrencyDescribing? {
-
         switch country {
             case .spain, .greece:
                 return Euro()
@@ -201,9 +198,9 @@ enum BurgerFactoryType: BurgerMaking {
 
 //Usage
 
-//BurgerFactoryType.bigKahuna.make()
-//BurgerFactoryType.jackInTheBox.make()
-//BurgerFactoryType.KFC_Burger.make()
+BurgerFactoryType.bigKahuna.make()
+BurgerFactoryType.jackInTheBox.make()
+BurgerFactoryType.KFC_Burger.make()
 
 // MARK: - Structural Design Patterns
 
@@ -312,7 +309,7 @@ struct NewStarTarget{
 //newFormat.angleH
 //newFormat.angleV
 
-// MARK: - Decorator (Wrapper)
+// MARK: - 9.Decorator (Wrapper)
 
 //class Pizza{
 //    let description: String = "Simple Pizza"
@@ -392,7 +389,7 @@ struct Mozzarell: ComponentDecorator{
 //pizza.cost
 //pizza.ingredient
 
-// MARK: - Facade
+// MARK: - 10.Facade
 
 class Defaults{
     private let defaults: UserDefaults
@@ -415,3 +412,5 @@ class Defaults{
 //let storage = Defaults()
 //storage["myName"] = "Youssef Eldeeb"
 //storage["myName"]
+
+// MARK: - <#TITLE#>
