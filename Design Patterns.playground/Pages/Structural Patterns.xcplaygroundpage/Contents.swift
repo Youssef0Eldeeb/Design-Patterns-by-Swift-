@@ -33,12 +33,54 @@ class weatherProviderAdapter: WeatherService{
     }
 }
 // Usage ------------------
-let weatherProvider = WeatherProvider()
-let providerService = weatherProviderAdapter(weatherProvider: weatherProvider)
-providerService.getCurrentWeather()
+//let weatherProvider = WeatherProvider()
+//let providerService = weatherProviderAdapter(weatherProvider: weatherProvider)
+//providerService.getCurrentWeather()
 
 // MARK: - 2.Proxy (Protection Proxy)  ========================================================
 
+//EX1:--------------
+protocol SMSService{
+    func sendSMS(custId: String, mobile: String, sms: String)
+}
+class SMSManager: SMSService{
+    func sendSMS(custId: String, mobile: String, sms: String) {
+        print("the user with id:\(custId) send msg:\(sms) to mobile:\(mobile) ")
+    }
+}
+class SMSManagerProxy{
+    
+    lazy var smsService: SMSService = SMSManager()
+    var sentCount = [String: Int]()
+    
+    func sendSMS(custId: String, mobile: String, sms: String) {
+        if !sentCount.keys.contains(custId) {
+            sentCount[custId] = 1
+            smsService.sendSMS(custId: custId, mobile: mobile, sms: sms)
+        }else{
+            guard var customerValue = sentCount[custId] else{
+                return
+            }
+            if customerValue >= 3 {
+                print("Can't Send!")
+            }else{
+                customerValue =  customerValue + 1
+                sentCount[custId] = customerValue
+                smsService.sendSMS(custId: custId, mobile: mobile, sms: sms)
+            }
+            
+        }
+    }
+}
+//var smsProxy = SMSManagerProxy()
+//smsProxy.sendSMS(custId: "123", mobile: "0112233", sms: "message 01")
+//smsProxy.sendSMS(custId: "123", mobile: "0112233", sms: "message 02")
+//smsProxy.sendSMS(custId: "123", mobile: "0112233", sms: "message 03")
+//smsProxy.sendSMS(custId: "123", mobile: "0112233", sms: "message 03")
+//
+
+
+//EX2:--------------
 //Implementation
 protocol DoorOpening{
     func open(doors: String) -> String
@@ -67,13 +109,13 @@ class DoorServiceProxy{
 }
 
 //Usage ------------------
-let computer = DoorServiceProxy()
-let door = "4"
-
-computer.open(doors: door)
-
-computer.authenticate(password: "pass")
-computer.open(doors: door)
+//let computer = DoorServiceProxy()
+//let door = "4"
+//
+//computer.open(doors: door)
+//
+//computer.authenticate(password: "pass")
+//computer.open(doors: door)
 
 // MARK: - 3.Adapter ========================================================
 
@@ -103,11 +145,11 @@ struct NewStarTarget{
     
 }
 //Usage ------------------
-let target = OldStarTarget(angleHorizontal: 10.5, angleVertical: 14.434)
-let newFormat = NewStarTarget(target)
-
-newFormat.angleH
-newFormat.angleV
+//let target = OldStarTarget(angleHorizontal: 10.5, angleVertical: 14.434)
+//let newFormat = NewStarTarget(target)
+//
+//newFormat.angleH
+//newFormat.angleV
 
 // MARK: - 4.Decorator (Wrapper) ========================================================
 
@@ -179,17 +221,17 @@ struct Mozzarell: ComponentDecorator{
 }
 
 //Usage ------------------
-var pizza: DataHaving = Pizza()
-pizza.cost
-pizza.ingredient
-
-pizza = Mozzarell(component: pizza)
-pizza.cost
-pizza.ingredient
-
-pizza = Cheichen(component: pizza)
-pizza.cost
-pizza.ingredient
+//var pizza: DataHaving = Pizza()
+//pizza.cost
+//pizza.ingredient
+//
+//pizza = Mozzarell(component: pizza)
+//pizza.cost
+//pizza.ingredient
+//
+//pizza = Cheichen(component: pizza)
+//pizza.cost
+//pizza.ingredient
 
 // MARK: - 5.Facade  ========================================================
 
@@ -212,9 +254,36 @@ class Defaults{
 }
 
 //Usage ------------------
-let storage = Defaults()
-storage["myName"] = "Youssef Eldeeb"
-storage["myName"]
+//let storage = Defaults()
+//storage["myName"] = "Youssef Eldeeb"
+//storage["myName"]
 
+
+
+// MARK: - Interview Question in Awmmer Alshabaka
+
+protocol ServiceDelegate {
+    func makeAction()
+}
+class Controller1: ServiceDelegate{
+    
+    lazy var controller2 = Controller2(delegate: self)
+    
+    func makeAction() {
+//        var controller2 = Controller2(delegate: self)
+        print("action")
+        controller2.makeAny()
+    }
+}
+
+class Controller2 {
+    let delegate: ServiceDelegate
+    init(delegate: ServiceDelegate) {
+        self.delegate = delegate
+    }
+    func makeAny(){
+        print("dkfjklaj")
+    }
+}
 
 
